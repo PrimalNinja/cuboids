@@ -1,0 +1,19 @@
+PyTorch Structural (Stride 3):   7.3755 ms
+
+Expert Custom (Cube81):         0.3090 ms
+
+The 'Expert' Multiplier:          23.9x
+
+========================================
+
+/content# python test_engine.py  
+
+========================================
+
+PyTorch Structural (Stride 3):   7.3762 ms
+
+Expert Custom (Cube81):         0.3054 ms
+
+The 'Expert' Multiplier:          24.2x
+
+==============

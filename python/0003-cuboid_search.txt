@@ -1,0 +1,9 @@
+===================================
+
+Standard PyTorch (GPU): 113.9882 ms
+
+Expert Custom (GPU):      0.3042 ms
+
+The 'Structural' Gap:      374.7x faster
+
+===================================

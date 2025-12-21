@@ -1,0 +1,9 @@
+========================================
+
+PyTorch Structural (Stride 3):   7.3886 ms
+
+Expert Custom (Cube81):         0.5794 ms
+
+The 'Expert' Multiplier:          12.8x
+
+========================================

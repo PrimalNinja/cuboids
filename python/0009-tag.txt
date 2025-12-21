@@ -1,0 +1,23 @@
+--- PROOF OF LIFE: TAGGING EDITION ---
+Patterns Tagged: 1
+Expert Latency : 0.3336 ms (avg over 10 runs)
+PyTorch Latency: 0.7938 ms (avg over 10 runs)
+Expert Speedup : 2.4x
+/content# python test_engine.py 
+--- PROOF OF LIFE: TAGGING EDITION ---
+Patterns Tagged: 1
+Expert Latency : 0.3351 ms (avg over 10 runs)
+PyTorch Latency: 0.7919 ms (avg over 10 runs)
+Expert Speedup : 2.4x
+/content# python test_engine.py 
+--- PROOF OF LIFE: TAGGING EDITION ---
+Patterns Tagged: 1
+Expert Latency : 0.3437 ms (avg over 10 runs)
+PyTorch Latency: 0.8024 ms (avg over 10 runs)
+Expert Speedup : 2.3x
+/content# python test_engine.py 
+--- PROOF OF LIFE: TAGGING EDITION ---
+Patterns Tagged: 1
+Expert Latency : 0.3343 ms (avg over 10 runs)
+PyTorch Latency: 0.7916 ms (avg over 10 runs)
+Expert Speedup : 2.4x

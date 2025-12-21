@@ -1,0 +1,67 @@
+=== CUBOID STRUCTURAL QUERY BENCHMARK (N=64) ===
+Custom Cube81 matches: 1
+PyTorch cuboid loop matches: 1
+
+Custom Cube81: 0.0301 ms/iter
+PyTorch cuboid loop: 375.2884 ms/iter
+Speedup vs PyTorch loop: 12453.1x
+
+PyTorch ternary energy: 0.1589 ms/iter
+Speedup Cube81 vs ternary: 5.3x
+/content# python test_cuboids.py
+=== SYMMETRIC T-SHAPE COUNT BENCHMARK (exact same task) ===
+
+--- 1: CUBOID-BASED (Structural) ---
+1a - Custom Cuboid matches       : 1
+1b - PyTorch Cuboid loop matches : 1
+1c - Custom Cuboid time          : 0.0442 ms/iter
+1d - PyTorch Cuboid loop time    : 377.5097 ms/iter
+1e - Speedup (custom vs loop)    : 8541.8x
+
+--- 2: NON-CUBOID (Dense voxel-wise) ---
+2a - PyTorch Dense matches       : 1
+2b - (No custom dense kernel yet - placeholder matches: N/A)
+2c - (No custom dense kernel yet - placeholder time: N/A)
+2d - PyTorch Dense time          : 0.1818 ms/iter
+/content# python test_cuboids.py
+=== T-SHAPE COUNT BENCHMARK - SAME TASK ===
+Speedup = performance increase from baseline (0 = no change, positive = faster, negative = slower)
+
+--- 1: CUBOID-BASED (Structural) ---
+1a - Custom matches : 1
+1b - PyTorch matches : 1
+1c - Custom time    : 0.0443 ms/iter
+1d - PyTorch time   : 379.5252 ms/iter
+1e - Speedup (custom vs PyTorch) : +8558.7x (performance increase)
+
+--- 2: NON-CUBOID (Dense voxel-wise) ---
+2a - Custom matches : N/A
+2b - PyTorch matches : 1
+2c - Custom time    : N/A ms/iter
+2d - PyTorch time   : 0.2342 ms/iter
+2e - Speedup (custom vs PyTorch) : N/A
+
+--- CROSS-PARADIGM COMPARISON (cuboid custom vs non-cuboid PyTorch) ---
+Cross - Cuboid custom speedup vs non-cuboid PyTorch : +4.3x (faster)
+Cross - Non-cuboid PyTorch speedup vs cuboid custom : -0.8x (slower)
+/content# python test_cuboids.py
+=== T-SHAPE COUNT BENCHMARK - SAME TASK ===
+Speedup = performance increase from baseline (0 = no change, positive = faster, negative = slower)
+
+--- 1: CUBOID-BASED (Structural) ---
+1a - Custom matches : 1
+1b - PyTorch matches : 1
+1c - Custom time    : 0.0460 ms/iter
+1d - PyTorch time   : 380.9617 ms/iter
+1e - Speedup (custom vs PyTorch) : +8288.4x (performance increase)
+
+--- 2: NON-CUBOID (Dense voxel-wise) ---
+2a - Custom matches : N/A
+2b - PyTorch matches : 1
+2c - Custom time    : N/A ms/iter
+2d - PyTorch time   : 0.1856 ms/iter
+2e - Speedup (custom vs PyTorch) : N/A
+
+--- CROSS-PARADIGM COMPARISON (cuboid custom vs non-cuboid PyTorch) ---
+Cross - Cuboid custom speedup vs non-cuboid PyTorch : +3.0x (faster)
+Cross - Non-cuboid PyTorch speedup vs cuboid custom : -0.8x (slower)

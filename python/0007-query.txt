@@ -1,0 +1,28 @@
+--- PROOF OF LIFE ---
+Traditional Found: 1 | Time: 105.8044ms
+Expert Found:      1 | Time: 5.0421ms
+Expert Speedup:    21.0x
+/content# python test_engine.py 
+ninja: no work to do.
+--- PROOF OF LIFE ---
+Traditional Found: 1 | Time: 55.4967ms
+Expert Found:      1 | Time: 1.4553ms
+Expert Speedup:    38.1x
+/content# python test_engine.py 
+ninja: no work to do.
+--- PROOF OF LIFE ---
+Traditional Found: 1 | Time: 37.2298ms
+Expert Found:      1 | Time: 1.4150ms
+Expert Speedup:    26.3x
+/content# python test_engine.py 
+ninja: no work to do.
+--- PROOF OF LIFE ---
+Traditional Found: 1 | Time: 34.5898ms
+Expert Found:      1 | Time: 1.3392ms
+Expert Speedup:    25.8x
+/content# python test_engine.py 
+ninja: no work to do.
+--- PROOF OF LIFE ---
+Traditional Found: 1 | Time: 47.5609ms
+Expert Found:      1 | Time: 1.8001ms
+Expert Speedup:    26.4x

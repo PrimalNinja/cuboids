@@ -1,0 +1,12 @@
+/content# python test_engine.py 
+--- PROOF OF LIFE ---
+Patterns Successfully Tagged: 1
+Hardware Latency:            0.6337ms
+/content# python test_engine.py 
+--- PROOF OF LIFE ---
+Patterns Successfully Tagged: 1
+Hardware Latency:            0.5155ms
+/content# python test_engine.py 
+--- PROOF OF LIFE ---
+Patterns Successfully Tagged: 1
+Hardware Latency:            0.5312ms

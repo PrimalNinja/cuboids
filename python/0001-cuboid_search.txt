@@ -1,0 +1,5 @@
+[RESULTS]
+
+Time: 0.3424 ms
+
+Speedup: 4673.3x vs CPU
