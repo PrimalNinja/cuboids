@@ -1,0 +1,58 @@
+Warming up GPU...
+[Typical] Time: 44.661 ms
+
+[CUDA 1] VBT40 | 3.686 ms | Eff: 0.95x | Gain: -5%
+[CUDA 2] VTT40 | 3.637 ms | Eff: 0.96x | Gain: -4%
+[CUDA 3] TBT40 | 3.629 ms | Eff: 0.96x | Gain: -4%
+[CUDA 4] TTT40 | 3.621 ms | Eff: 0.96x | Gain: -4%
+[CUDA 5] PBT40 | 3.607 ms | Eff: 0.97x | Gain: -3%
+[CUDA 6] PTT40 | 3.601 ms | Eff: 0.97x | Gain: -3%
+[CUDA 7] CBT80 | 7.063 ms | Eff: 0.99x | Gain: -1%
+[CUDA 8] CTT80 | 7.070 ms | Eff: 0.99x | Gain: -1%
+[CUDA 9] NBT111 | 9.774 ms | Eff: 0.99x | Gain: -1%
+[CUDA 10] NTT111 | 9.776 ms | Eff: 0.99x | Gain: -1%
+[CUDA 11] SCY111 | 4.492 ms | Eff: 2.16x | Gain: 116%
+[CUDA 12] VBT512 | 44.398 ms | Eff: 1.01x | Gain: 1%
+[CUDA 13] VTT512 | 19.113 ms | Eff: 2.34x | Gain: 134%
+[CUDA 14] TBT512 | 18.856 ms | Eff: 2.37x | Gain: 137%
+[CUDA 15] TTT512 | 18.866 ms | Eff: 2.37x | Gain: 137%
+[CUDA 16] PBT512 | 18.744 ms | Eff: 2.38x | Gain: 138%
+[CUDA 17] PTT512 | 18.685 ms | Eff: 2.39x | Gain: 139%
+[CUDA 18] CBT512 | 18.639 ms | Eff: 2.40x | Gain: 140%
+[CUDA 19] CTT512 | 18.474 ms | Eff: 2.42x | Gain: 142%
+[CUDA 20] NBT512 | 18.468 ms | Eff: 2.42x | Gain: 142%
+[CUDA 21] NTT512 | 18.565 ms | Eff: 2.41x | Gain: 141%
+[CUDA 22] NTT1024 | 36.706 ms | Eff: 2.43x | Gain: 143%
+[CUDA 23] NTT4096 | 137.374 ms | Eff: 2.60x | Gain: 160%
+[CUDA 24] NTT16384 | 546.095 ms | Eff: 2.62x | Gain: 162%
+[CUDA 25] NTT32768 | 1106.818 ms | Eff: 2.58x | Gain: 158%
+
+===============================================================================================
+Approach             Code       Time         Speedup    ms/Point     Detected
+-----------------------------------------------------------------------------------------------
+Typical (Baseline)   TYP512       44.661 ms     1.00x    0.087229  1000000
+VBT40                VB40          3.686 ms    12.12x    0.092141      500
+VTT40                VT40          3.637 ms    12.28x    0.090933      500
+TBT40                TB40          3.629 ms    12.31x    0.090719      500
+TTT40                TT40          3.621 ms    12.33x    0.090519      500
+PBT40                PB40          3.607 ms    12.38x    0.090166      500
+PTT40                PT40          3.601 ms    12.40x    0.090020      500
+CBT80                CB80          7.063 ms     6.32x    0.088290      500
+CTT80                CT80          7.070 ms     6.32x    0.088373      500
+NBT111               NB111         9.774 ms     4.57x    0.088052      500
+NTT111               NT111         9.776 ms     4.57x    0.088074      500
+SCY111               SB111         4.492 ms     9.94x    0.040468      500
+VBT512               VB512        44.398 ms     1.01x    0.086714  1000000
+VTT512               VT512        19.113 ms     2.34x    0.037330  1000000
+TBT512               TB512        18.856 ms     2.37x    0.036829  1000000
+TTT512               TT512        18.866 ms     2.37x    0.036849  1000000
+PBT512               PB512        18.744 ms     2.38x    0.036609  1000000
+PTT512               PT512        18.685 ms     2.39x    0.036493  1000000
+CBT512               CB512        18.639 ms     2.40x    0.036404  1000000
+CTT512               CT512        18.474 ms     2.42x    0.036083  1000000
+NBT512               NB512        18.468 ms     2.42x    0.036070  1000000
+NTT512               NT512        18.565 ms     2.41x    0.036259  1000000
+NTT1024              NT1024       36.706 ms     1.22x    0.035846  1000000
+NTT4096              NT4096      137.374 ms     0.33x    0.033539  1000000
+NTT16384             NT16384     546.095 ms     0.08x    0.033331  1000000
+NTT32768             NT32768    1106.818 ms     0.04x    0.033777  1000000

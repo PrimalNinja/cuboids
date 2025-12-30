@@ -1,0 +1,198 @@
+======================================================================
+TEST 1: Audio kick drum detection
+======================================================================
+Batch: 1500000 spectrograms
+Warming up GPU kernels...
+Warm-up complete. Starting real tests.
+
+[Typical] CUDA Optimized
+  Time: 67.276 ms
+
+[CUDA 1] VBT40 (VBT40)
+  Time: 5.601 ms
+  Detected: 500.0/500
+  ⚡ Efficiency Surplus: 12.01x (Work Density)
+  🧠 Virtual Hardware Gain: 1101%
+----------------------------------------
+[CUDA 2] VTT40 (VTT40)
+  Time: 5.555 ms
+  Detected: 500.0/500
+  ⚡ Efficiency Surplus: 12.11x (Work Density)
+  🧠 Virtual Hardware Gain: 1111%
+----------------------------------------
+[CUDA 3] TBT40 (TBT40)
+  Time: 2.997 ms
+  Detected: 500.0/500
+  ⚡ Efficiency Surplus: 22.45x (Work Density)
+  🧠 Virtual Hardware Gain: 2145%
+----------------------------------------
+[CUDA 4] TTT40 (TTT40)
+  Time: 3.000 ms
+  Detected: 500.0/500
+  ⚡ Efficiency Surplus: 22.43x (Work Density)
+  🧠 Virtual Hardware Gain: 2143%
+----------------------------------------
+[CUDA 5] PBT40 (PBT40)
+  Time: 2.904 ms
+  Detected: 500.0/500
+  ⚡ Efficiency Surplus: 23.17x (Work Density)
+  🧠 Virtual Hardware Gain: 2217%
+----------------------------------------
+[CUDA 6] PTT40 (PTT40)
+  Time: 2.977 ms
+  Detected: 500.0/500
+  ⚡ Efficiency Surplus: 22.60x (Work Density)
+  🧠 Virtual Hardware Gain: 2160%
+----------------------------------------
+[CUDA 7] CBT80 (CBT80)
+  Time: 5.423 ms
+  Detected: 500.0/500
+  ⚡ Efficiency Surplus: 24.81x (Work Density)
+  🧠 Virtual Hardware Gain: 2381%
+----------------------------------------
+[CUDA 8] CTT80 (CTT80)
+  Time: 5.412 ms
+  Detected: 500.0/500
+  ⚡  Efficiency Surplus: 24.86x (Work Density)
+  🧠  Virtual Hardware Gain: 2386%
+----------------------------------------
+[CUDA 9] NBT111 (NBT111)
+  Time: 7.415 ms
+  Detected: 500.0/500
+  ⚡  Efficiency Surplus: 25.18x (Work Density)
+  🧠  Virtual Hardware Gain: 2418%
+----------------------------------------
+[CUDA 10] NTT111 (NTT111)
+  Time: 6.551 ms
+  Detected: 500.0/500
+  ⚡  Efficiency Surplus: 28.50x (Work Density)
+  🧠  Virtual Hardware Gain: 2750%
+----------------------------------------
+[CUDA 11] VBT512 (VBT512)
+  Time: 27.473 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 31.34x (Work Density)
+  🧠  Virtual Hardware Gain: 3034%
+----------------------------------------
+[CUDA 12] VTT512 (VTT512)
+  Time: 26.526 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 32.46x (Work Density)
+  🧠  Virtual Hardware Gain: 3146%
+----------------------------------------
+[CUDA 13] TBT512 (TBT512)
+  Time: 26.811 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 32.12x (Work Density)
+  🧠  Virtual Hardware Gain: 3112%
+----------------------------------------
+[CUDA 14] TTT512 (TTT512)
+  Time: 26.470 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 32.53x (Work Density)
+  🧠  Virtual Hardware Gain: 3153%
+----------------------------------------
+[CUDA 15] PBT512 (PBT512)
+  Time: 26.231 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 32.83x (Work Density)
+  🧠  Virtual Hardware Gain: 3183%
+----------------------------------------
+[CUDA 16] PTT512 (PTT512)
+  Time: 26.828 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 32.10x (Work Density)
+  🧠  Virtual Hardware Gain: 3110%
+----------------------------------------
+[CUDA 17] CBT512 (CBT512)
+  Time: 26.046 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 33.06x (Work Density)
+  🧠  Virtual Hardware Gain: 3206%
+----------------------------------------
+[CUDA 18] CTT512 (CTT512)
+  Time: 26.328 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 32.71x (Work Density)
+  🧠  Virtual Hardware Gain: 3171%
+----------------------------------------
+[CUDA 19] NBT512 (NBT512)
+  Time: 27.120 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 31.75x (Work Density)
+  🧠  Virtual Hardware Gain: 3075%
+----------------------------------------
+[CUDA 20] NTT512 (NTT512)
+  Time: 26.059 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 33.05x (Work Density)
+  🧠  Virtual Hardware Gain: 3205%
+----------------------------------------
+[CUDA 21] NTT1024 (NTT1024)
+  Time: 52.589 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 32.75x (Work Density)
+  🧠  Virtual Hardware Gain: 3175%
+----------------------------------------
+[CUDA 22] NTT2048 (NTT2048)
+  Time: 103.738 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 33.20x (Work Density)
+  🧠  Virtual Hardware Gain: 3220%
+----------------------------------------
+[CUDA 23] NTT4096 (NTT4096)
+  Time: 208.080 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 33.11x (Work Density)
+  🧠  Virtual Hardware Gain: 3211%
+----------------------------------------
+[CUDA 24] NTT8192 (NTT8192)
+  Time: 412.933 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 33.37x (Work Density)
+  🧠  Virtual Hardware Gain: 3237%
+----------------------------------------
+[CUDA 25] NTT16384 (NTT16384)
+  Time: 824.350 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 33.43x (Work Density)
+  🧠  Virtual Hardware Gain: 3243%
+----------------------------------------
+[CUDA 26] NTT32768 (NTT32768)
+  Time: 1653.475 ms
+  Detected: 1500000.0/500
+  ⚡  Efficiency Surplus: 33.33x (Work Density)
+  🧠  Virtual Hardware Gain: 3233%
+----------------------------------------
+======================================================================
+SUMMARY
+======================================================================
+Approach             Code     Time       Speedup    ms/Point     Detected
+--------------------------------------------------------------------------------
+Typical (Baseline)   TYP512     67.276 ms     1.00x    0.131398 1500000.0/500
+VBT40                VBT40       5.601 ms    12.01x    0.140015 500.0/500
+VTT40                VTT40       5.555 ms    12.11x    0.138886 500.0/500
+TBT40                TBT40       2.997 ms    22.45x    0.074934 500.0/500
+TTT40                TTT40       3.000 ms    22.43x    0.074990 500.0/500
+PBT40                PBT40       2.904 ms    23.17x    0.072603 500.0/500
+PTT40                PTT40       2.977 ms    22.60x    0.074428 500.0/500
+CBT80                CBT80       5.423 ms    12.40x    0.067791 500.0/500
+CTT80                CTT80       5.412 ms    12.43x    0.067646 500.0/500
+NBT111               NBT111      7.415 ms     9.07x    0.066804 500.0/500
+NTT111               NTT111      6.551 ms    10.27x    0.059022 500.0/500
+VBT512               VBT512     27.473 ms     2.45x    0.053659 1500000.0/500
+VTT512               VTT512     26.526 ms     2.54x    0.051808 1500000.0/500
+TBT512               TBT512     26.811 ms     2.51x    0.052365 1500000.0/500
+TTT512               TTT512     26.470 ms     2.54x    0.051698 1500000.0/500
+PBT512               PBT512     26.231 ms     2.56x    0.051233 1500000.0/500
+PTT512               PTT512     26.828 ms     2.51x    0.052399 1500000.0/500
+CBT512               CBT512     26.046 ms     2.58x    0.050871 1500000.0/500
+CTT512               CTT512     26.328 ms     2.56x    0.051422 1500000.0/500
+NBT512               NBT512     27.120 ms     2.48x    0.052968 1500000.0/500
+NTT512               NTT512     26.059 ms     2.58x    0.050896 1500000.0/500
+NTT1024              NTT1024    52.589 ms     1.28x    0.051356 1500000.0/500
+NTT2048              NTT2048   103.738 ms     0.65x    0.050653 1500000.0/500
+NTT4096              NTT4096   208.080 ms     0.32x    0.050801 1500000.0/500
+NTT8192              NTT8192   412.933 ms     0.16x    0.050407 1500000.0/500
+NTT16384             NTT16384  824.350 ms     0.08x    0.050314 1500000.0/500
+NTT32768             NTT32768 1653.475 ms     0.04x    0.050460 1500000.0/500

@@ -1,0 +1,29 @@
+✓ Kernels compiled!
+
+======================================================================
+🔬  MEMORY ALIGNMENT INVESTIGATION
+======================================================================
+
+Testing: Cube27 (27 bytes, 32-aligned)
+  Time: 0.0325 ms | Detections: 0
+Testing: Cube81 (81 bytes, 128-aligned)
+  Time: 0.0335 ms | Detections: 0
+Testing: Coalesced Cube27 (warp-optimized)
+  Time: 0.1581 ms | Detections: 0
+
+======================================================================
+📊  ANALYSIS: WHY DOES CUBE81 WORK SO WELL?
+======================================================================
+Cube27 (27B)                   0.0325 ms
+Cube81 (81B)                   0.0335 ms
+Coalesced27                    0.1581 ms
+
+🏆  Winner: Cube27 (27B)
+
+💡  THEORY:
+  Cube27 (27B) → 32-byte aligned = 1 cache sector
+  Cube81 (81B) → 128-byte aligned = 1 cache LINE
+  • Cube81 = 3 layers of 27 points each
+  • Perfect for GPU cache hierarchy!
+  • Warp of 32 threads × 81 bytes = 2592 bytes
+  • Fits in L1 cache (48KB) perfectly!

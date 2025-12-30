@@ -1,0 +1,31 @@
+unless you have no other choice:
+
+1. use a single kernel only
+2. do not call functions from within GPU callbacks / kernel callbacks
+3. do not use floats, use ternary or int
+4. use GPU primatives only
+5. do not move memory
+
+
+
+typedef int8_t tinyFloat;  // -40 to +40
+
+#define TINY_MIN -40
+#define TINY_MAX 40
+#define TINY_SCALE 40
+
+// All ops inline in kernel:
+tinyFloat a = 15;
+tinyFloat b = -10;
+
+// add
+int sum = a + b;
+sum = (sum > TINY_MAX) ? TINY_MAX : (sum < TINY_MIN) ? TINY_MIN : sum;
+
+// mul (normalized)
+int prod = (a * b) / TINY_SCALE;
+prod = (prod > TINY_MAX) ? TINY_MAX : (prod < TINY_MIN) ? TINY_MIN : prod;
+
+// div (scaled)
+int quot = (b != 0) ? ((a * TINY_SCALE) / b) : TINY_MAX;
+quot = (quot > TINY_MAX) ? TINY_MAX : (quot < TINY_MIN) ? TINY_MIN : quot;

@@ -1,0 +1,80 @@
+
+WITH GEMINI CRAP IN IT:
+
+--- TERNARY MAZE SOLVER AUDIT (Base Batch: 1000000) ---
+Dim    | Grid Cells   | Batch      | Total (ms)   | Per Maze (µs)   | Cells/µs    
+------------------------------------------------------------------------------------------
+10     | 100          | 1,000,000 (full) |      67.00 |        0.0670 |    1492.53
+50     | 2500         | 1,000,000 (full) |    8204.04 |        8.2040 |     304.73
+100    | 10000        | 1,000,000 (full) |   65298.38 |       65.2984 |     153.14
+200    | 40000        | 250,000    |   20284.36 |       81.1374 |     492.99
+
+==========================================================================================
+Brute Force Without Repetition: Sovereign Ternary Engine Active.
+==========================================================================================
+
+--- LARGE MAZE TEST (Smaller Batch) ---
+500×500 maze (250,000 cells) with 1 mazes (warp mode: True):
+  Total: 6.75ms | Per maze: 6754.4961µs | Throughput: 37 cells/µs
+1000×1000 maze (1,000,000 cells) with 1 mazes (warp mode: True):
+  Total: 13.45ms | Per maze: 13451.4561µs | Throughput: 74 cells/µs
+  
+WITH GEMINI CRAP REMOVED:
+
+--- TERNARY MAZE SOLVER AUDIT (Base Batch: 1000000) ---
+Dim    | Grid Cells   | Batch      | Total (ms)   | Per Maze (µs)   | Cells/µs    
+------------------------------------------------------------------------------------------
+10     | 100          | 1,000,000 (full) |      60.83 |        0.0608 |    1643.80
+50     | 2500         | 1,000,000 (full) |    4718.93 |        4.7189 |     529.78
+100    | 10000        | 1,000,000 (full) |   22664.34 |       22.6643 |     441.22
+200    | 40000        | 250,000    |   22987.94 |       91.9518 |     435.01
+
+==========================================================================================
+Brute Force Without Repetition: Sovereign Ternary Engine Active.
+==========================================================================================
+
+--- LARGE MAZE TEST (Smaller Batch) ---
+500×500 maze (250,000 cells) with 1 mazes (warp mode: True):
+  Total: 10.05ms | Per maze: 10053.6318µs | Throughput: 25 cells/µs
+1000×1000 maze (1,000,000 cells) with 1 mazes (warp mode: True):
+  Total: 0.87ms | Per maze: 868.9280µs | Throughput: 1151 cells/µs
+  
+NEW VERSION
+  
+--- TERNARY MAZE SOLVER AUDIT (Base Batch: 1000000) ---
+Dim    | Grid Cells   | Batch      | Total (ms)   | Per Maze (µs)   | Cells/µs    
+------------------------------------------------------------------------------------------
+10     | 100          | 1,000,000 (full) |      22.15 |        0.0222 |    4514.07
+50     | 2500         | 1,000,000 (full) |    4706.87 |        4.7069 |     531.14
+100    | 10000        | 1,000,000 (full) |   22521.67 |       22.5217 |     444.02
+200    | 40000        | 250,000    |   22848.06 |       91.3923 |     437.67
+
+==========================================================================================
+Brute Force Without Repetition: Sovereign Ternary Engine Active.
+==========================================================================================
+
+--- LARGE MAZE TEST (Smaller Batch) ---
+500×500 maze (250,000 cells) with 10,000 mazes:
+  Total: 706.34ms | Per maze: 70.6341µs | Throughput: 3539 cells/µs
+1000×1000 maze (1,000,000 cells) with 10,000 mazes:
+  Total: 3165.02ms | Per maze: 316.5019µs | Throughput: 3160 cells/µs
+  
+
+--- TERNARY MAZE SOLVER AUDIT (Base Batch: 1000000) ---
+Dim    | Grid Cells   | Batch      | Total (ms)   | Per Maze (µs)   | Cells/µs    
+------------------------------------------------------------------------------------------
+10     | 100          | 1,000,000 (full) |      22.60 |        0.0226 |    4424.85
+50     | 2500         | 1,000,000 (full) |    4686.77 |        4.6868 |     533.42
+100    | 10000        | 1,000,000 (full) |   22499.15 |       22.4991 |     444.46
+200    | 40000        | 250,000    |   22818.56 |       91.2743 |     438.24
+
+==========================================================================================
+Brute Force Without Repetition: Sovereign Ternary Engine Active.
+==========================================================================================
+
+--- LARGE MAZE TEST (Smaller Batch) ---
+500×500 maze (250,000 cells) with 10,000 mazes:
+  Total: 707.72ms | Per maze: 70.7719µs | Throughput: 3532 cells/µs
+1000×1000 maze (1,000,000 cells) with 10,000 mazes:
+  Total: 3220.41ms | Per maze: 322.0406µs | Throughput: 3105 cells/µs
+  

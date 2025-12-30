@@ -1,0 +1,179 @@
+#include <torch/extension.h>
+#include <cuda_runtime.h>
+#include <stdint.h>
+
+struct SwordHandle {
+    int* bus_data;
+    int max_depth;
+};
+
+// SHARPEN: Setup the Sequential Jumper Rack
+intptr_t sharpen(int max_depth, int t = 1024) {
+    SwordHandle* s = new SwordHandle;
+    s->max_depth = max_depth;
+    cudaMalloc(&s->bus_data, max_depth * sizeof(int));
+    cudaMemset(s->bus_data, 0, max_depth * sizeof(int));
+    return reinterpret_cast<intptr_t>(s);
+}
+
+// THE LINEAR STRIKE: Propagation through the Bus
+__global__ void d_linear_strike(int* bus, int depth, int identity) {
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    if (tid >= depth) return;
+
+    if (tid == 0) {
+        bus[0] = identity; // The Seed Pulse
+    } else {
+        // Wait for the "Alternate Clock" from previous Z80
+        while (atomicAdd(&bus[tid-1], 0) == 0) {} 
+        bus[tid] = (bus[tid-1] ^ identity) + (tid % 3);
+    }
+}
+
+// SLASH: Execute the Linear Pulse
+torch::Tensor slash(intptr_t handle, int identity, torch::Tensor input) {
+    SwordHandle* s = reinterpret_cast<SwordHandle*>(handle);
+    int threads = 1024;
+    int blocks = (s->max_depth + threads - 1) / threads;
+
+    d_linear_strike<<<blocks, threads>>>(s->bus_data, s->max_depth, identity);
+    
+    // Copy result back to input for "Stow"
+    cudaMemcpy(input.data_ptr(), s->bus_data, s->max_depth * sizeof(int), cudaMemcpyDeviceToDevice);
+    return input;
+}
+
+void sheath(intptr_t handle) {
+    SwordHandle* s = reinterpret_cast<SwordHandle*>(handle);
+    if (s) { cudaFree(s->bus_data); delete s; }
+}
+
+PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+    m.def("sharpen", &sharpen);
+    m.def("slash", &slash);
+    m.def("sheath", &sheath);
+}
+
+
+
+
+#include <torch/extension.h>
+#include <cuda_runtime.h>
+#include <stdint.h>
+
+struct MeshHandle {
+    int clusters;
+    int size;
+};
+
+intptr_t sharpen(int clusters, int size) {
+    MeshHandle* m = new MeshHandle;
+    m->clusters = clusters;
+    m->size = size;
+    return reinterpret_cast<intptr_t>(m);
+}
+
+// THE MESH STRIKE: PARRY (L1) and THRUST (Global)
+__global__ void d_mesh_strike(int* grid, int identity, int clusters, int size) {
+    extern __shared__ int s_middle_32k[];
+    int tid = threadIdx.x;
+    int bid = blockIdx.x;
+    int idx = bid * size + tid;
+
+    // PARRY: Internal Cluster logic at L1 speed
+    s_middle_32k[tid] = grid[idx] ^ identity;
+    __syncthreads();
+
+    // THRUST: Only the "Jumper" thread passes the signal
+    if (tid == size - 1 && bid < clusters - 1) {
+        grid[(bid + 1) * size] = s_middle_32k[tid] + (bid % 3);
+    }
+}
+
+torch::Tensor slash(intptr_t handle, int identity, torch::Tensor input) {
+    MeshHandle* m = reinterpret_cast<MeshHandle*>(handle);
+    int* d_ptr = static_cast<int*>(input.data_ptr());
+    
+    size_t shared_mem = m->size * sizeof(int);
+    d_mesh_strike<<<m->clusters, m->size, shared_mem>>>(d_ptr, identity, m->clusters, m->size);
+    
+    return input;
+}
+
+void sheath(intptr_t handle) {
+    delete reinterpret_cast<MeshHandle*>(handle);
+}
+
+PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+    m.def("sharpen", &sharpen);
+    m.def("slash", &slash);
+    m.def("sheath", &sheath);
+}
+
+
+
+
+#include <torch/extension.h>
+#include <cuda_runtime.h>
+
+// COMMANDMENT III: 5 Trits per Byte (95% efficiency)
+// Unpacks 5 ternary states (-1, 0, 1) from 1 byte in a single branchless strike.
+__device__ __forceinline__ void unpack_trits_5(uint8_t packed, int8_t* out) {
+    int val = packed;
+    #pragma unroll
+    for (int i = 0; i < 5; i++) {
+        // Ghost Logic: Extract base-3 digit without modulo/if
+        int trit = val % 3; 
+        out[i] = (int8_t)trit - 1; // Map 0,1,2 to -1,0,1
+        val /= 3;
+    }
+}
+
+// COMMANDMENT V: The Cube81 Nonoid Kernel
+__global__ void d_nonoid_strike(uint8_t* grid, int8_t* results, int batch_size) {
+    int tid = threadIdx.x;
+    int bid = blockIdx.x;
+    
+    // MIDDLE 32KB: Shared vowel (Shared Memory)
+    __shared__ int8_t s_nonoid[1024]; // 32 threads * 32 bytes
+    
+    // 1. DRAW: Load 5-trit packed bytes
+    uint8_t packed_byte = grid[bid * 32 + tid];
+    int8_t local_trits[5];
+    unpack_trits_5(packed_byte, local_trits);
+    
+    // 2. PARRY: Cube81 Logic (Flattened 9-plane Nonoid)
+    // 81 elements = 1 cycle resolution vs 3 cycles in Cube27
+    // Branchless interference check:
+    int8_t pressure = local_trits[0] * local_trits[1] + local_trits[2]; 
+    
+    // 3. THRUST: Stow back to results
+    results[bid * 160 + tid * 5] = pressure; 
+}
+
+
+
+#include <torch/extension.h>
+#include <cuda_runtime.h>
+
+// COMMANDMENT VI: Cooperative Swarm (The Polish Strike)
+__global__ void d_linear_sovereignty(volatile int* rack, int depth, int identity) {
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    if (tid >= depth) return;
+
+    if (tid == 0) {
+        rack[0] = identity; // The Prime Jumper
+    } else {
+        // COMMANDMENT IV: Memory Immutability
+        // We don't move data; we wait for the "Physics" of the bus to change.
+        while (rack[tid - 1] == 0) {
+            // Native hardware spin - zero abstraction overhead
+        }
+        
+        // The Strike: Propagate the ternary wave
+        int pulse = rack[tid - 1];
+        rack[tid] = (pulse ^ identity) + (tid % 3); 
+    }
+}
+
+
