@@ -1,0 +1,11 @@
+/content# python dh_precision_audit.py 
+Executing Stealth Audit: 512,000,000 samples total...
+  Progress: 25.0%
+
+============================================================
+TRI-SWORD DH GEOMETRIC COLLAPSE: PI TRUNCATION AUDIT
+============================================================
+Mean Hits:      7812.50
+Wobble Factor:  5.6359x
+Primary Vertex: Addr 5392
+============================================================

@@ -1,0 +1,5 @@
+/content# python dh_heatmap.py 
+Scanning the Vacuum: 102,400,000 samples...
+Wobble Factor: 2.6718x
+
+Heatmap saved as wobble_heatmap.png

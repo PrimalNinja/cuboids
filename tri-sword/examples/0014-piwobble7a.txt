@@ -1,0 +1,3 @@
+/content# python dh_fracture_sweep.py 
+Generating Fracture Data: 100,000,000 selections...
+Evidence Saved: trisword_pi_wobble_final.npy

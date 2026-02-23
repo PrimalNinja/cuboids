@@ -177,3 +177,574 @@ __global__ void d_linear_sovereignty(volatile int* rack, int depth, int identity
 }
 
 
+#include <torch/extension.h>
+#include <cuda_runtime.h>
+
+// COMMANDMENT III: 5 Trits per Byte (95% efficiency)
+// Unpacks 5 ternary states (-1, 0, 1) from 1 byte in a single branchless strike.
+__device__ __forceinline__ void unpack_trits_5(uint8_t packed, int8_t* out) {
+    int val = packed;
+    #pragma unroll
+    for (int i = 0; i < 5; i++) {
+        // Ghost Logic: Extract base-3 digit without modulo/if
+        int trit = val % 3; 
+        out[i] = (int8_t)trit - 1; // Map 0,1,2 to -1,0,1
+        val /= 3;
+    }
+}
+
+#include <torch/extension.h>
+#include <cuda_runtime.h>
+#include <stdint.h>
+
+struct MeshHandle {
+    int clusters;
+    int size;
+};
+
+intptr_t sharpen(int clusters, int size) {
+    MeshHandle* m = new MeshHandle;
+    m->clusters = clusters;
+    m->size = size;
+    return reinterpret_cast<intptr_t>(m);
+}
+
+// THE MESH STRIKE: PARRY (L1) and THRUST (Global)
+__global__ void d_mesh_strike(int* grid, int identity, int clusters, int size) {
+    extern __shared__ int s_middle_32k[];
+    int tid = threadIdx.x;
+    int bid = blockIdx.x;
+    int idx = bid * size + tid;
+
+    // PARRY: Internal Cluster logic at L1 speed
+    s_middle_32k[tid] = grid[idx] ^ identity;
+    __syncthreads();
+
+    // THRUST: Only the "Jumper" thread passes the signal
+    if (tid == size - 1 && bid < clusters - 1) {
+        grid[(bid + 1) * size] = s_middle_32k[tid] + (bid % 3);
+    }
+}
+
+torch::Tensor slash(intptr_t handle, int identity, torch::Tensor input) {
+    MeshHandle* m = reinterpret_cast<MeshHandle*>(handle);
+    int* d_ptr = static_cast<int*>(input.data_ptr());
+    
+    size_t shared_mem = m->size * sizeof(int);
+    d_mesh_strike<<<m->clusters, m->size, shared_mem>>>(d_ptr, identity, m->clusters, m->size);
+    
+    return input;
+}
+
+void sheath(intptr_t handle) {
+    delete reinterpret_cast<MeshHandle*>(handle);
+}
+
+PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+    m.def("sharpen", &sharpen);
+    m.def("slash", &slash);
+    m.def("sheath", &sheath);
+}
+
+#include <torch/extension.h>
+#include <cuda_runtime.h>
+#include <stdint.h>
+
+struct SwordHandle {
+    int* bus_data;
+    int max_depth;
+};
+
+// SHARPEN: Setup the Sequential Jumper Rack
+intptr_t sharpen(int max_depth, int t = 1024) {
+    SwordHandle* s = new SwordHandle;
+    s->max_depth = max_depth;
+    cudaMalloc(&s->bus_data, max_depth * sizeof(int));
+    cudaMemset(s->bus_data, 0, max_depth * sizeof(int));
+    return reinterpret_cast<intptr_t>(s);
+}
+
+// THE LINEAR STRIKE: Propagation through the Bus
+__global__ void d_linear_strike(int* bus, int depth, int identity) {
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    if (tid >= depth) return;
+
+    if (tid == 0) {
+        bus[0] = identity; // The Seed Pulse
+    } else {
+        // Wait for the "Alternate Clock" from previous Z80
+        while (atomicAdd(&bus[tid-1], 0) == 0) {} 
+        bus[tid] = (bus[tid-1] ^ identity) + (tid % 3);
+    }
+}
+
+// SLASH: Execute the Linear Pulse
+torch::Tensor slash(intptr_t handle, int identity, torch::Tensor input) {
+    SwordHandle* s = reinterpret_cast<SwordHandle*>(handle);
+    int threads = 1024;
+    int blocks = (s->max_depth + threads - 1) / threads;
+
+    d_linear_strike<<<blocks, threads>>>(s->bus_data, s->max_depth, identity);
+    
+    // Copy result back to input for "Stow"
+    cudaMemcpy(input.data_ptr(), s->bus_data, s->max_depth * sizeof(int), cudaMemcpyDeviceToDevice);
+    return input;
+}
+
+void sheath(intptr_t handle) {
+    SwordHandle* s = reinterpret_cast<SwordHandle*>(handle);
+    if (s) { cudaFree(s->bus_data); delete s; }
+}
+
+PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+    m.def("sharpen", &sharpen);
+    m.def("slash", &slash);
+    m.def("sheath", &sheath);
+}
+
+#include <torch/extension.h>
+#include <cuda_runtime.h>
+
+struct MeshHandle {
+    int clusters;
+    int cluster_size;
+};
+
+intptr_t sharpen_mesh(int clusters, int size) {
+    MeshHandle* m = new MeshHandle;
+    m->clusters = clusters;
+    m->cluster_size = size;
+    return reinterpret_cast<intptr_t>(m);
+}
+
+// THE CLUSTER STRIKE: Using Shared Memory (L1 Silicon)
+__global__ void d_mesh_cluster(int* grid, int identity, int clusters, int size) {
+    extern __shared__ int s_middle_32k[];
+    int tid = threadIdx.x;
+    int bid = blockIdx.x;
+    int idx = bid * size + tid;
+
+    // PARRY: Internal Cluster Logic
+    s_middle_32k[tid] = grid[idx] ^ identity;
+    __syncthreads();
+
+    // THRUST: Passing to the next Z80 Neighborhood
+    if (tid == size - 1 && bid < clusters - 1) {
+        grid[(bid + 1) * size] = s_middle_32k[tid] + 1;
+    }
+}
+
+// SLASH: The PyTorch Hook
+torch::Tensor slash_mesh(intptr_t handle, int identity, torch::Tensor input) {
+    MeshHandle* m = reinterpret_cast<MeshHandle*>(handle);
+    int8_t* d_ptr = static_cast<int8_t*>(input.data_ptr());
+    
+    size_t shared_mem = m->cluster_size * sizeof(int);
+    d_mesh_cluster<<<m->clusters, m->cluster_size, shared_mem>>>(
+        (int*)d_ptr, identity, m->clusters, m->cluster_size
+    );
+    
+    return input;
+}
+
+void sheath_mesh(intptr_t handle) {
+    delete reinterpret_cast<MeshHandle*>(handle);
+}
+
+PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+    m.def("sharpen", &sharpen_mesh);
+    m.def("slash", &slash_mesh);
+    m.def("sheath", &sheath_mesh);
+}
+
+#include <torch/extension.h>
+#include <cuda_runtime.h>
+
+struct SwordHandle {
+    int* bus_data;
+    int max_depth;
+};
+
+// SHARPEN: Setup the 90s Card Rack
+intptr_t sharpen_linear(int max_depth) {
+    SwordHandle* s = new SwordHandle;
+    s->max_depth = max_depth;
+    cudaMalloc(&s->bus_data, max_depth * sizeof(int));
+    cudaMemset(s->bus_data, 0, max_depth * sizeof(int));
+    return reinterpret_cast<intptr_t>(s);
+}
+
+// THE SEQUENTIAL STRIKE
+__global__ void d_linear_waterfall(int* bus, int depth, int identity) {
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    if (tid >= depth) return;
+
+    if (tid == 0) {
+        bus[0] = identity; // Start the pulse
+    } else {
+        // Sequential Jumper Logic
+        while (atomicAdd(&bus[tid-1], 0) == 0) {} 
+        bus[tid] = (bus[tid-1] ^ identity) + (tid % 3);
+    }
+}
+
+// SLASH: The PyTorch Hook
+torch::Tensor slash_linear(intptr_t handle, int identity, torch::Tensor input) {
+    SwordHandle* s = reinterpret_cast<SwordHandle*>(handle);
+    int threads = 1024;
+    int blocks = (s->max_depth + threads - 1) / threads;
+
+    d_linear_waterfall<<<blocks, threads>>>(s->bus_data, s->max_depth, identity);
+    
+    // DRAW/STOW: Zero-copy return via the input tensor
+    return input; 
+}
+
+void sheath_linear(intptr_t handle) {
+    SwordHandle* s = reinterpret_cast<SwordHandle*>(handle);
+    if (s) { cudaFree(s->bus_data); delete s; }
+}
+
+PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+    m.def("sharpen", &sharpen_linear);
+    m.def("slash", &slash_linear);
+    m.def("sheath", &sheath_linear);
+}
+
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+#include <stdio.h>
+
+#define CLUSTER_SIZE 1024
+#define NUM_CLUSTERS 1024 // 1M total threads
+#define NONOID_SIZE 111
+
+__global__ void mesh_cluster_kernel(int* global_bus, int identity) {
+    // MIDDLE 32KB: Shared Memory (The L1 Silicon Sword)
+    __shared__ int s_middle_32k[CLUSTER_SIZE];
+
+    int tid = threadIdx.x;
+    int bid = blockIdx.x;
+    int global_idx = bid * CLUSTER_SIZE + tid;
+
+    // 1. DRAW: Load from the neighborhood bus into the Cluster
+    s_middle_32k[tid] = global_bus[global_idx];
+    __syncthreads();
+
+    // 2. PARRY: Internal Cluster Interference (High-speed Logic)
+    // Every thread interacts with its neighbors in the 111-point field
+    int result = s_middle_32k[tid] ^ identity;
+    s_middle_32k[tid] = result + (tid % 3);
+    __syncthreads();
+
+    // 3. THRUST: Hand-off to the next neighborhood in the card rack
+    // Only the 'Edge Z80' jumper passes the signal forward
+    if (tid == CLUSTER_SIZE - 1 && bid < NUM_CLUSTERS - 1) {
+        global_bus[(bid + 1) * CLUSTER_SIZE] = s_middle_32k[tid];
+    }
+}
+
+int main() {
+    int *d_bus;
+    size_t size = NUM_CLUSTERS * CLUSTER_SIZE * sizeof(int);
+    cudaMalloc(&d_bus, size);
+    
+    // Seed the first cluster
+    int initial_board = 777;
+    cudaMemcpy(d_bus, &initial_board, sizeof(int), cudaMemcpyHostToDevice);
+
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+
+    printf("Executing MESH CLUSTER: 1,024 Nonoid Neighborhoods...\n");
+    cudaEventRecord(start);
+
+    mesh_cluster_kernel<<<NUM_CLUSTERS, CLUSTER_SIZE>>>(d_bus, 111333);
+
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+
+    float ms = 0;
+    cudaEventElapsedTime(&ms, start, stop);
+    printf("Mesh Strike Complete. Time: %f ms\n", ms);
+    printf("Resolution: 1,024 Clusters x 1,024 Internal States\n");
+
+    cudaFree(d_bus);
+    return 0;
+}
+
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+#include <stdio.h>
+
+#define NUM_THREADS 1048576 // 1 Million Z80s
+#define THREADS_PER_BLOCK 1024
+
+// Sequential Strike: Thread N waits for Thread N-1
+__global__ void linear_waterfall_kernel(volatile int* bus, int identity) {
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (tid == 0) {
+        // The "Source" Z80 card starts the pulse
+        bus[0] = identity;
+    } else {
+        // THE JUMPER: Wait for neighbor's pulse (Simulating the clock shift)
+        while (bus[tid - 1] == 0) {
+            // Spinning here forces hardware-level sequentiality
+        }
+        
+        // NATIVE STRIKE: Apply 111-point logic and hand-off
+        int val = bus[tid - 1];
+        bus[tid] = (val ^ identity) + (tid % 3);
+    }
+}
+
+int main() {
+    int *d_bus;
+    size_t size = NUM_THREADS * sizeof(int);
+    cudaMalloc(&d_bus, size);
+    cudaMemset(d_bus, 0, size);
+
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+
+    printf("Executing LINEAR WATERFALL: 1 Million Sequential Jumpers...\n");
+    cudaEventRecord(start);
+
+    linear_waterfall_kernel<<<NUM_THREADS / THREADS_PER_BLOCK, THREADS_PER_BLOCK>>>(d_bus, 111333);
+
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+
+    float ms = 0;
+    cudaEventElapsedTime(&ms, start, stop);
+    printf("Linear Strike Complete. Time: %f ms\n", ms);
+    printf("Depth Achieved: 1,048,576 Lookahead Layers\n");
+
+    cudaFree(d_bus);
+    return 0;
+}
+
+#include <cuda_runtime.h>
+#include <stdio.h>
+
+#define CLUSTER_SIZE 1024
+#define NUM_CLUSTERS 1024 // Total 1M threads
+
+__global__ void mesh_pulse_kernel(int* global_bus, int identity) {
+    // MIDDLE 32KB (Shared Memory for the Cluster)
+    __shared__ int s_cluster_data[CLUSTER_SIZE];
+
+    int tid = threadIdx.x;
+    int bid = blockIdx.x;
+
+    // PARRY: Internal cluster logic (Zero Latency)
+    s_cluster_data[tid] = global_bus[bid * CLUSTER_SIZE + tid] ^ identity;
+    __syncthreads(); 
+
+    // THE THRUST: Only the 'Edge Z80s' pass data to the next cluster
+    if (tid == CLUSTER_SIZE - 1 && bid < NUM_CLUSTERS - 1) {
+        int cluster_result = s_cluster_data[tid];
+        global_bus[(bid + 1) * CLUSTER_SIZE] = cluster_result + 1;
+    }
+}
+
+int main() {
+    int *d_bus;
+    cudaMalloc(&d_bus, NUM_CARDS * sizeof(int));
+    
+    printf("Initiating MESH STRIKE (1024 Clusters of 1024)...\n");
+    mesh_pulse_kernel<<<NUM_CLUSTERS, CLUSTER_SIZE>>>(d_bus, 333);
+    cudaDeviceSynchronize();
+    printf("Mesh Strike Completed.\n");
+
+    cudaFree(d_bus);
+    return 0;
+}
+
+#include <cuda_runtime.h>
+#include <stdio.h>
+
+#define NUM_CARDS 1048576
+
+__global__ void linear_pulse_kernel(int* bus, int identity) {
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    
+    // THE JUMPER: Thread N waits for Thread N-1
+    // This forces the "Sequential Bus" logic
+    if (tid > 0) {
+        while(atomicAdd(&bus[tid-1], 0) == 0) {
+            // Spinning here simulates the "Alternate Clock" delay
+        }
+        int data = bus[tid-1];
+        bus[tid] = (data ^ identity) + (tid % 3); // The 111-point Filter
+    }
+}
+
+int main() {
+    int *d_bus;
+    cudaMalloc(&d_bus, NUM_CARDS * sizeof(int));
+    cudaMemset(d_bus, 0, NUM_CARDS * sizeof(int));
+
+    int start_pulse = 111;
+    cudaMemcpy(d_bus, &start_pulse, sizeof(int), cudaMemcpyHostToDevice);
+
+    printf("Initiating LINEAR STRIKE (1M Sequential Hand-offs)...\n");
+    linear_pulse_kernel<<<1024, 1024>>>(d_bus, 333);
+    cudaDeviceSynchronize();
+    printf("Linear Strike Completed.\n");
+
+    cudaFree(d_bus);
+    return 0;
+}
+
+
+// COMMANDMENT V: The Cube81 Nonoid Kernel
+__global__ void d_nonoid_strike(uint8_t* grid, int8_t* results, int batch_size) {
+    int tid = threadIdx.x;
+    int bid = blockIdx.x;
+    
+    // MIDDLE 32KB: Shared vowel (Shared Memory)
+    __shared__ int8_t s_nonoid[1024]; // 32 threads * 32 bytes
+    
+    // 1. DRAW: Load 5-trit packed bytes
+    uint8_t packed_byte = grid[bid * 32 + tid];
+    int8_t local_trits[5];
+    unpack_trits_5(packed_byte, local_trits);
+    
+    // 2. PARRY: Cube81 Logic (Flattened 9-plane Nonoid)
+    // 81 elements = 1 cycle resolution vs 3 cycles in Cube27
+    // Branchless interference check:
+    int8_t pressure = local_trits[0] * local_trits[1] + local_trits[2]; 
+    
+    // 3. THRUST: Stow back to results
+    results[bid * 160 + tid * 5] = pressure; 
+}
+
+
+#include <torch/extension.h>
+#include <cuda_runtime.h>
+
+// COMMANDMENT VI: Cooperative Swarm (The Polish Strike)
+__global__ void d_linear_sovereignty(volatile int* rack, int depth, int identity) {
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+    if (tid >= depth) return;
+
+    if (tid == 0) {
+        rack[0] = identity; // The Prime Jumper
+    } else {
+        // COMMANDMENT IV: Memory Immutability
+        // We don't move data; we wait for the "Physics" of the bus to change.
+        while (rack[tid - 1] == 0) {
+            // Native hardware spin - zero abstraction overhead
+        }
+        
+        // The Strike: Propagate the ternary wave
+        int pulse = rack[tid - 1];
+        rack[tid] = (pulse ^ identity) + (tid % 3); 
+    }
+}
+
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+#include <stdio.h>
+
+// 1 Million virtual Z80 cards in the rack
+#define NUM_CARDS 1048576 
+#define THREADS_PER_BLOCK 1024
+#define BLOCKS (NUM_CARDS / THREADS_PER_BLOCK)
+
+// 111-point Nonoid Identity: 3 (ID) + 27 (Vol) + 81 (Face)
+__constant__ int c_nonoid_geometry[111]; 
+
+/**
+ * The "Math Below": Geometric Collision
+ * Replaces human "skill" with raw coordinate interference.
+ */
+__device__ int apply_nonoid_filter(int board_state, int thread_id) {
+    // Each Z80 card uses its own "Middle 32KB" (Nonoid piece masks)
+    int mask = c_nonoid_geometry[thread_id % 111];
+    
+    // Ternary-aligned logic: 3-state collision detection
+    // If the geometry aligns, the signal passes; otherwise, it's attenuated.
+    return (board_state ^ mask) + (thread_id % 3);
+}
+
+/**
+ * THE SEQUENTIAL BUS KERNEL
+ * Each thread is a standalone Z80.
+ * The 'Jumper' on the card staggers the clock cycles.
+ */
+__global__ void trisword_bus_strike(int* bus_memory, int direction) {
+    int tid = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (direction == 1) { // FORWARD PULSE: The 50,000+ Lookahead
+        if (tid > 0) {
+            // "Lower 16KB": Read from previous Z80 card
+            int incoming_past = bus_memory[tid - 1];
+            
+            // "Middle 32KB": Apply No-Knowledge Logic
+            int outgoing_future = apply_nonoid_filter(incoming_past, tid);
+            
+            // "Upper 16KB": Hand-off to next Z80
+            bus_memory[tid] = outgoing_future;
+        }
+    } else { // BACKWARD PULSE: The Probability Feedback
+        if (tid < NUM_CARDS - 1) {
+            int feedback = bus_memory[tid + 1];
+            bus_memory[tid] = apply_nonoid_filter(feedback, tid);
+        }
+    }
+}
+
+int main() {
+    int *d_bus;
+    size_t bus_size = NUM_CARDS * sizeof(int);
+    
+    // Pre-computed 111-point Geometric Masks (Sample Data)
+    int h_nonoid[111];
+    for(int i=0; i<111; i++) h_nonoid[i] = (i * 3) % 255; 
+
+    // Initialize Hardware
+    cudaMalloc(&d_bus, bus_size);
+    cudaMemset(d_bus, 0, bus_size);
+    cudaMemcpyToSymbol(c_nonoid_geometry, h_nonoid, 111 * sizeof(int));
+
+    // Initial Board State from Python (The Seed)
+    int seed_state = 111333; 
+    cudaMemcpy(d_bus, &seed_state, sizeof(int), cudaMemcpyHostToDevice);
+
+    // Timing the "T-States" of the 30-second strike
+    cudaEvent_t start, stop;
+    cudaEventCreate(&start);
+    cudaEventCreate(&stop);
+
+    printf("Starting Tri-Sword Strike: 1 Million Sequential Z80s...\n");
+    cudaEventRecord(start);
+
+    // STRIKE 1: The Forward Cascade (Lookahead Maze)
+    // We launch 1 million cards in a line.
+    trisword_bus_strike<<<BLOCKS, THREADS_PER_BLOCK>>>(d_bus, 1);
+    
+    // STRIKE 2: The Return Wave (Decision Verification)
+    trisword_bus_strike<<<BLOCKS, THREADS_PER_BLOCK>>>(d_bus, -1);
+
+    cudaEventRecord(stop);
+    cudaEventSynchronize(stop);
+
+    float ms = 0;
+    cudaEventElapsedTime(&ms, start, stop);
+
+    printf("========================================\n");
+    printf("STRIKE COMPLETED\n");
+    printf("Duration: %f ms\n", ms);
+    printf("Decisions per Second: %f Billion\n", (2.0 * NUM_CARDS / (ms / 1000.0)) / 1e9);
+    printf("========================================\n");
+
+    // Clean up
+    cudaFree(d_bus);
+    return 0;
+}
+

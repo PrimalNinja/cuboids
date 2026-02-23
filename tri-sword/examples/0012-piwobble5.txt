@@ -1,0 +1,15 @@
+/content# python dh_visual_audit.py 
+Mapping the Polygon on T4...
+Heatmap saved: wobble_map.png
+
+TOP 10 RESONANCE PEAKS (ROM ADDRESSES):
+Addr: 3207 | Hits: 1981 (Mean: 1562.5)
+Addr: 51872 | Hits: 1974 (Mean: 1562.5)
+Addr: 54138 | Hits: 1946 (Mean: 1562.5)
+Addr: 16295 | Hits: 1942 (Mean: 1562.5)
+Addr: 6399 | Hits: 1941 (Mean: 1562.5)
+Addr: 42347 | Hits: 1939 (Mean: 1562.5)
+Addr: 22821 | Hits: 1939 (Mean: 1562.5)
+Addr: 46203 | Hits: 1938 (Mean: 1562.5)
+Addr: 23701 | Hits: 1936 (Mean: 1562.5)
+Addr: 61959 | Hits: 1936 (Mean: 1562.5)

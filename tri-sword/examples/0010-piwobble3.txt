@@ -1,0 +1,10 @@
+/content# python dh_bias_test.py 
+Executing Bias Audit on Tesla T4...
+
+============================================================
+DH WOBBLE AUDIT RESULTS
+============================================================
+Mean Hits per Addr: 781.25
+Observed Std Dev:   56.71
+Ideal Std Dev:      27.95
+Wobble Factor:      2.0288x
