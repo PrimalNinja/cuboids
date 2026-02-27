@@ -1,0 +1,57 @@
+# Mori's Program vs. DH Discretization: Tri-Sword Fine-Tune
+
+## 1. Objective
+
+To validate if a 3D spherical projection of the modular space (using Shigefumi Mori's Minimal Model principles) identifies vertex "Corners" with higher efficiency than traditional 2D polygon mapping.
+
+## 2. Core Test Parameters
+
+* **Target Hardware:** NVIDIA Tesla T4 (FP32/INT32 Register Audit)
+* **Mathematical Framework:** Algebraic Varieties (Birational Geometry / 3D Riemann Sphere)
+* **Baseline:** Tri-Sword Audit Phase II (5.6359x Wobble)
+
+## 3. Phase VII-A: Coalesced Singularity Scan
+
+* Map residues to a 3D grid using **Nonoid (81-point) topology** (9 planes × 9 points = 81 elements)
+* Align the **Primary Vertex (Addr 5392)** to L1 cache boundaries for maximum memory coalescing (Tri-Sword Section 1)
+* Detect singularities at cache-line granularity — wobble becomes measurable at hardware level
+* **Metric:** Calculate the concentration of Primary Vertex (Addr 5392) in 3D space
+
+## 4. Phase VII-B: Branchless Geodesic Inversion
+
+* Solve **p = 2^64** as a Ternary Flow problem (Water Physics — Tri-Sword Section 5)
+* Signal propagates through ground state (0), blocked by walls (1)
+* Replace IF/THEN pathfinding with **Predicate Logic masks** for zero warp divergence (Tri-Sword Section 6.5)
+* Use geodesic calculation instead of Pollard's Rho random walk — direct geometric inversion
+* **Metric:** Solve discrete log for **p = 2^64** using geometric intersection rather than probabilistic search
+
+## 5. Phase VII-C: TinyFloat Wobble Map
+
+* Encode 3D precision offsets as **int8_t (-40 to +40)** using TinyFloat mathematics (Tri-Sword Section 6.6)
+* Fit entire 3D fracture map into **48KB Shared Memory** (L1 cache residency = <30 cycle latency)
+* Compare VRAM consumption: 3D spherical lookup table vs. 2D "Jagged Polygon" at same bit-depth
+* **Tri-Sword Metric:** Target **4,500+ cells/µs** for geometric inversion pulse (matches maze solver peak performance)
+
+## 6. The "Mori Constraint" Hypothesis
+
+**Hypothesis:** By applying Mori's Program, we can find the "Minimal Model" of the DH group. If the "Silicon Polygon" is regular, knowing 3 high-resonance vertices in a 3D variety allows for the calculation of the entire group structure via rotation.
+
+### Validation Questions:
+
+* Is the "Silicon Polygon" regular? → Measure vertex spacing in 3D
+* Does knowing 3 high-resonance vertices reveal all? → Apply rotation to predict unseen vertices
+* Is the "Law of the Wobble" a 3D invariant? → Check if pattern persists across coordinate transformations
+
+**Target:** Determine if the "Law of the Wobble" is a 3D geometric invariant.
+
+## 7. Phase VII Execution Sequence
+
+| **Phase** | **Action** | **Metric** |
+|:---|:---|:---|
+| **VII-A** | Run coalesced singularity scan | Vertex concentration in L1 cache |
+| **VII-B** | Implement geodesic inversion | Time to solve **p = 2^64** |
+| **VII-C** | Build TinyFloat wobble map | Memory usage <48KB |
+
+---
+**Status:** Phase VII Initial Research Framework  
+**References:** $I(M;A)=0$ | UNSIGNAL Protocol | Mori's Program (1988) | Tri-Sword Framework (2025)
