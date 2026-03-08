@@ -9,6 +9,8 @@ The Tri-Sword Framework is not just suitable for GPU computing—it's **ideally 
 
 To keep performance to the max, Tri-Sword techniques are employed which may not be of high enough accuracy for absolute detection but should be accurate enough for preliminary analysis for which could narrow the search space by 99%.
 
+Suggestion for space agencies - have NVidia create a GPU with direct access to 1TB of RAM.
+
 | Tri-Sword Strength | Planetary Defense Application |
 |:---|:---|
 | **Spatial structure** | Sky surveys as 2D grids, 3D trajectory space, celestial sphere tiling |
