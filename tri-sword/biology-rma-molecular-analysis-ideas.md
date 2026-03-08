@@ -1,5 +1,8 @@
 # Tri-Sword Framework for Biology, RMA, and Molecular Analysis
 
+**Author:** Julian Cassin  
+**Date:** 2026-02-27  
+
 ## Executive Summary
 
 The Tri-Sword Framework is not just suitable for biology and molecular analysis — it's **ideally suited**. These domains are fundamentally **spatial, iterative, and neighbor-dependent**, which aligns perfectly with Tri-Sword's core strengths in exploiting geometric structure, branchless propagation, and persistent kernel execution.

@@ -1,5 +1,8 @@
 # The Tri-Sword Framework: Manifesto of Silicon Sovereignty
 
+**Author:** Julian Cassin  
+**Date:** 2025-12-25
+
 Document Version: Draft 3
 
 *This document codifies the techniques discovered during the 2025 Audit. By bypassing the "Software Tax" and exploiting raw Silicon Physics, we have achieved breakthrough performance across multiple problem domains.*
