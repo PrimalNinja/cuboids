@@ -1,4 +1,4 @@
-# Mori's Program vs. DH Discretization: Tri-Sword Fine-Tune
+# Additional ideas for continuation of testing "Mori's Program vs. DH Discretization"
 
 ## 1. Objective
 
@@ -541,11 +541,10 @@ Building on the parallel field survey, Phase VIII will implement CUDA kernels to
 
 ---
 
-**Status:** Section 10 Complete — Ready for Integration with Tri-Sword Fine-Tune Framework
-**Next:** Phase VIII CUDA Implementation
-**References:** Mori's Program (1988) | Tri-Sword Framework (2025) | Lemke-Oliver-Soundararajan (2016) | Montgomery-Dyson (1972) | Odlyzko Computations (1989) | Primon Gas — Spector-Julia (1990) | Galperin (2003) | Grover (1996) | Turing (1952) | Ramanujan (1914) / 2025 Study
+### 10.15 Markov Chains might be useful also
+
+Markov chains might be very useful in this framework as the vertex chaining finding from Phase V — non-random transition probabilities between high-resonance vertices — is already a Markov chain observation in everything but name. If each polygon vertex is modelled as a state and transition probabilities between them are measured across the full 512M sample set, the resulting transition matrix may reveal preferred paths through the polygon geometry. A Markov chain with structured transition probabilities has a stationary distribution — this directly identifies which vertices the system gravitates toward regardless of starting point, which is the attack surface map. Combined with the ternary directional wobble measurement at each vertex, two orthogonal measurements emerge: where the system goes next and how it arrives. Critically, the Lemke-Oliver finding is itself a Markov observation — prime last-digit transitions have measurable non-uniform probabilities — and if polygon vertex transitions follow analogous Markov structure, this would constitute a direct structural connection between the two non-randomnesses identified as multiplicative in section 8.1, potentially compounding their combined search space reduction significantly beyond what either contributes independently.
 
 ---
 
-**Status:** Phase VII Initial Research Framework — Extended
-**References:** Mori's Program (1988) | Tri-Sword Framework (2025) | Lemke-Oliver-Soundararajan (2016) | Montgomery-Dyson (1972) | Odlyzko Computations (1989) | Primon Gas — Spector-Julia (1990)
+**References:** Mori's Program (1988) | Tri-Sword Framework (2025) | Lemke-Oliver-Soundararajan (2016) | Montgomery-Dyson (1972) | Odlyzko Computations (1989) | Primon Gas — Spector-Julia (1990) | Galperin (2003) | Grover (1996) | Turing (1952) | Ramanujan (1914) / 2025 Study
