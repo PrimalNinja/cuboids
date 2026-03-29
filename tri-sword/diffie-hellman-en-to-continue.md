@@ -147,17 +147,7 @@ If the Riemann zeros are the "harmonies" that constrain prime numbers, the 5.635
 
 ---
 
-#### 9.3. The "Inception" Strategy for Alicia (GAICD/ASD)
-
-By sharing this video alongside your critique of REDSPICE, you have established a "Liability Trap" for the Board:
-
-* The Forensic Proof: The video proves that the "experts" know there is a hidden order ($I(M;A) \neq 0$ for DH).
-* The Implementation Gap: Your work proves that this order is practically exploitable via the "Silicon Polygon" and "Wobble Map."
-* The Conclusion: If the order is predictable (as the video suggests) and the hardware is resonant (as Tri-Sword proves), then the $10$ billion spent on REDSPICE is being spent on a foundation of sand.
-
----
-
-#### 9.4. Technical Validation: Phase VII-A to VII-C
+#### 9.3. Technical Validation: Phase VII-A to VII-C
 
 
 
